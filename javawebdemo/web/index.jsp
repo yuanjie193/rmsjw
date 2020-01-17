@@ -11,6 +11,10 @@
     <title>$Title$</title>
   </head>
   <body>
-  $END$
+  <form action="/backed/users/login" method="post" >
+    <input type="text" placeholder="用户名" name="username">
+    <input type="password" placeholder="密码" name="password">
+    <input type="submit" placeholder="登录">
+  </form>
   </body>
 </html>
