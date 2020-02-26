@@ -37,9 +37,15 @@ public class UserServlet extends HttpServlet {
             case "getmsg":
                 getMsg(request,response);
                 break;
+            case "forget_password":
+                forgetPassword(request,response);
+                break;
         }
 
     }
+
+
+
     //管理员登陆
     private void login(HttpServletRequest request,HttpServletResponse response) throws IOException, ServletException {
         String username = request.getParameter("username");
@@ -48,10 +54,9 @@ public class UserServlet extends HttpServlet {
         //用户登录成功，保存用户信息
         HttpSession session = request.getSession();
         Users date = login.getDate();
-        session.setAttribute("us",date);
-
+        session.setAttribute("user",date);
 //        request.setAttribute("user",login);
-        request.getRequestDispatcher("/WEB-INF/home.jsp").forward(request,response);
+        request.getRequestDispatcher("/WEB-INF/home2.jsp").forward(request,response);
     }
     //获取管理员信息
     private void getMsg(HttpServletRequest request,HttpServletResponse response){
@@ -59,4 +64,13 @@ public class UserServlet extends HttpServlet {
     }
     //修改管理员信息
     //禁用管理员
+    //忘记密码
+    private void forgetPassword(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String username = request.getParameter("username");
+        String email = request.getParameter("email");
+        String newPassword = request.getParameter("newPassword");
+        ResponseCode<Users> u =userService.forgetPassword(username,email,newPassword);
+        request.setAttribute("forget",u);
+        request.getRequestDispatcher("/login.jsp").forward(request,response);
+    }
 }

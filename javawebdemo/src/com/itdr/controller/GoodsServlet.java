@@ -31,8 +31,13 @@ public class GoodsServlet extends HttpServlet {
                 break;
             case "totype":
                 toType(request,response);
+                break;
             case "selectgoods":
                 selectGoods(request,response);
+                break;
+            case "deletegoods":
+                deleteGoods(request,response);
+                break;
         }
 
     }
@@ -41,7 +46,7 @@ public class GoodsServlet extends HttpServlet {
     private void getAllGoods(HttpServletRequest request,HttpServletResponse response) throws IOException, ServletException {
         ResponseCode allGoods = goodsService.getAllGoods();
         request.setAttribute("glist",allGoods);
-        request.getRequestDispatcher("/WEB-INF/glist.jsp").forward(request,response);
+        request.getRequestDispatcher("/WEB-INF/glist2.jsp").forward(request,response);
     }
     private void toType(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String id = request.getParameter("goods_id");
@@ -55,5 +60,12 @@ public class GoodsServlet extends HttpServlet {
         ResponseCode selectgoods =  goodsService.selectGoods(sg);
         request.setAttribute("sg",selectgoods);
         request.getRequestDispatcher("/WEB-INF/glist.jsp").forward(request,response);
+    }
+    //删除商品
+    private void deleteGoods(HttpServletRequest request,HttpServletResponse response) throws IOException, ServletException {
+        String id = request.getParameter("goods_id");
+        ResponseCode delete = goodsService.toDelete(id);
+        response.getWriter().write(delete.getDate().toString());
+
     }
 }

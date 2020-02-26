@@ -35,18 +35,20 @@ public class GoodsDao {
         }
         return query;
     }
-    //更新type
-    public int  updateById(int i ){
+    //商品下架
+    public int  updateById(int i,int update ){
         QueryRunner queryRunner =new QueryRunner(C3p0Util.getCom());
         int a = 0;
-        String sql = "update goods set goods_type=1 where goods_id = ? ";
+        String sql = "update goods set goods_type=? where goods_id = ? ";
         try {
-            a = queryRunner.update(sql,i);
+            a = queryRunner.update(sql,update,i);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return a;
     }
+
+//    模糊查询
     public List<Goods>  selectByName(String i ){
         QueryRunner queryRunner =new QueryRunner(C3p0Util.getCom());
         List<Goods> query = null;
@@ -60,5 +62,17 @@ public class GoodsDao {
             e.printStackTrace();
         }
         return query;
+    }
+
+    public int deleteGoods(int i) {
+        QueryRunner queryRunner =new QueryRunner(C3p0Util.getCom());
+        int a = 0;
+        String sql = "delete from goods where goods_id = ?";
+        try {
+            a = queryRunner.update(sql,i);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return a;
     }
 }

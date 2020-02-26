@@ -20,9 +20,15 @@ public class ConfigServlet extends HttpServlet {
             case "home":
                 home(request,response);
                 break;
+            case "register":
+                register(request,response);
+                break;
         }
     }
     private void home(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("/WEB-INF/home.jsp").forward(request,response);
+    }
+    private void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("/WEB-INF/register.jsp").forward(request,response);
     }
 }

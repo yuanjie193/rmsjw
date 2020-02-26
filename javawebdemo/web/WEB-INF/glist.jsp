@@ -5,7 +5,8 @@
   Time: 22:09
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" errorPage="errorpage.jsp" %>
+<%--<%@ page contentType="text/html;charset=UTF-8" language="java" errorPage="errorpage.jsp" %>--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java"  %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
@@ -116,6 +117,7 @@
 <%--</c:if>--%>
 </body>
 <script src = "${pageContext.request.contextPath}/js/jquery-3.3.1.js"></script>
+<%--<script src = "../js/jquery-3.3.1.js"></script>--%>
 <script>
     function toType(but) {
         var a = $(but).parent().parent().children().first().text();

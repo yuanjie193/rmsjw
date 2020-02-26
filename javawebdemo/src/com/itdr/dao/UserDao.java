@@ -23,4 +23,16 @@ public class UserDao {
         }
         return u;
     }
+    //根据用户名和邮箱更新密码
+    public int updateNewPasswordByUsernameAndEmail(String username, String email, String newpassword) {
+        QueryRunner queryRunner =new QueryRunner(C3p0Util.getCom());
+        int i = 0;
+        String sql = "update user set password =? where username=? and email=?";
+        try {
+            i = queryRunner.update(sql,newpassword,username,email);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return i;
+    }
 }

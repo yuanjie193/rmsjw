@@ -18,7 +18,6 @@ public class FullFilter implements Filter {
         //乱码处理
       request.setCharacterEncoding("utf-8");
       response.setContentType("text/html;charset=utf-8");
-
         //管理员权限校验
 //        request.getServletContext();
         String requestURI = ((HttpServletRequest) request).getRequestURI();
@@ -26,10 +25,15 @@ public class FullFilter implements Filter {
         //登录页面直接放行
         if("login".equals(split[split.length-1])){
             chain.doFilter(request, response);
-        }else {
+        }else if("register".equals(split[split.length-1])){
+            chain.doFilter(request, response);
+        } else if("forget_password".equals(split[split.length-1])){
+            chain.doFilter(request, response);
+        } else{
             //其它请求斗西游验证管理员权限以及是否登录，定位到一个页面
             HttpSession session = ((HttpServletRequest) request).getSession();
-            Users us =(Users) session.getAttribute("us");
+            Users us =(Users) session.getAttribute("user");
+            System.out.println("进来了");
             if(us == null || us.getType() != 1){
                 request.getRequestDispatcher("/WEB-INF/noaccess.jsp").forward(request,response);
             }else {

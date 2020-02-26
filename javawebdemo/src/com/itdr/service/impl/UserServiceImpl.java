@@ -25,4 +25,21 @@ public class UserServiceImpl implements UserService {
         //成功则返回用户数据
         return ResponseCode.toSuccess(users);
     }
+
+    @Override
+    public ResponseCode<Users> forgetPassword(String username, String email,String newpassword) {
+        //参数非空判断
+        if(username == null || username.equals("")){
+            return ResponseCode.toDefeated("用户名不能为空");
+        }
+        if(email == null || email.equals("")){
+            return ResponseCode.toDefeated("邮箱不能为空");
+        }
+        //更新密码
+        int i = userDao.updateNewPasswordByUsernameAndEmail(username,email,newpassword);
+        if(i<=0){
+            return ResponseCode.toDefeated("密码更新失败!!");
+        }
+        return ResponseCode.toSuccess("密码修改成功！");
+    }
 }

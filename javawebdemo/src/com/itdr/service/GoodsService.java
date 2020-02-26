@@ -9,4 +9,6 @@ public interface GoodsService {
     ResponseCode toType(String id);
 
     ResponseCode selectGoods(String sg);
+
+    ResponseCode toDelete(String id);
 }
