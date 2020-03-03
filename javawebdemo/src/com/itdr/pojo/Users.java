@@ -11,6 +11,15 @@ public class Users {
     private String user_level;
     private int type;
     private String email;
+    private String operator;//操作人
+
+    public String getOperator() {
+        return operator;
+    }
+
+    public void setOperator(String operator) {
+        this.operator = operator;
+    }
 
     public String getEmail() {
         return email;

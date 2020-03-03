@@ -1,10 +1,9 @@
-package com.itdr.pojo;
+package com.itdr.pojo.VO;
 
 import java.util.Date;
 
-public class Goods {
+public class GoodsVO {
     private  Integer goods_id;
-    private  Integer uid;
     private  int goods_type;
     private String goods_name;
     private String goods_photo;
@@ -15,14 +14,7 @@ public class Goods {
     private String goods_color;
     private Date creat_time;
     private Date update_time;
-
-    public Integer getUid() {
-        return uid;
-    }
-
-    public void setUid(Integer uid) {
-        this.uid = uid;
-    }
+    private String username;
 
     public Integer getGoods_id() {
         return goods_id;
@@ -31,6 +23,7 @@ public class Goods {
     public void setGoods_id(Integer goods_id) {
         this.goods_id = goods_id;
     }
+
 
     public int getGoods_type() {
         return goods_type;
@@ -110,5 +103,13 @@ public class Goods {
 
     public void setUpdate_time(Date update_time) {
         this.update_time = update_time;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

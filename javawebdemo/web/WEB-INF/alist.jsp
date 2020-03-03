@@ -38,7 +38,11 @@
             top:35px;
             left: 2%;
         }
-
+        #login-page{
+            display: none;
+            position: absolute;
+            top:60px;
+        }
     </style>
 
 
@@ -81,8 +85,9 @@
                     <a href="profile.html"><img src="${pageContext.request.contextPath}/img/ui-sam.jpg" class="img-circle" width="80"></a>
                 </p>
                 <h5 class="centered">${user.username}</h5>
+                <h5 id="type" style="display: none">${user.type}</h5>
                 <li class="sub-menu">
-                    <a class="active"  href="javascript:;">
+                    <a href="javascript:;">
                         <i class="fa fa-desktop"></i>
                         <span>商品管理</span>
                     </a>
@@ -92,11 +97,11 @@
                     </ul>
                 </li>
                 <li class="sub-menu">
-                    <a href="javascript:;">
+                    <a href="javascript:;" class="active">
                         <i class="fa fa-cogs"></i>
                         <span>管理员</span>
                     </a>
-                    <ul class="sub">
+                    <ul class="sub" >
                         <li><a href="${pageContext.request.contextPath}/backed/users/getmsg">我的管理员</a></li>
                         <c:if test="${user.type eq 1}">
                             <li><a href="${pageContext.request.contextPath}/backed/index/addmsg">添加管理员</a></li>
@@ -113,75 +118,52 @@
         MAIN CONTENT
         *********************************************************************************************************************************************************** -->
     <!--main content start-->
-
     <section id="main-content">
         <section class="wrapper">
             <!-- row -->
             <div class="row mt">
                 <div class="col-md-12">
                     <div class="content-panel" id = "h">
-                        <h4><i class="fa fa-angle-right"></i> 全部商品</h4>
-                        <form  id = "ff" class="form-inline" role="form" action="${pageContext.request.contextPath}/backed/goods/goodssort">
-                            <select name="field" class="form-control" >
-                                <option value="goods_price" >商品价格</option>
-                                <option value="goods_number">商品库存</option>
-                            </select>
-                            <select name="way" class="form-control" >
-                                <option value="asc" >从低到高</option>
-                                <option value="desc">从高到低</option>
-                            </select>
-                            <input type="submit" class="btn btn-theme" value="搜 索"></input>
-                        </form>
-                        <form class="form-inline" role="form" action="${pageContext.request.contextPath}/backed/goods/selectgoods"  >
-                            <div class="form-group" id="a">
-                                <label class="sr-only" for="exampleInputEmail2">Email address</label>
-                                <input type="text" class="form-control" id="exampleInputEmail2" placeholder="商品名称/描述/颜色" name="selectgoods">
-                            </div>
-                            <input type="submit" class="btn btn-theme" value="搜 索"></input>
-                        </form>
+                        <h4><i class="fa fa-angle-right"></i> 管理员</h4>
 
-                        <c:if test="${not empty glist.date}">
+                        <c:if test="${not empty msg.date}">
                             <table class="table table-striped table-advance table-hover">
                                     <%--<h4><i class="fa fa-angle-right"></i>  全部商品</h4>--%>
                                 <hr>
                                 <thead>
                                 <tr>
-                                    <th style="display:none">商品序号</th>
-                                    <th>商品名称</th>
-                                    <th>商品价格</th>
-                                    <th>商品描述</th>
-                                    <th>商品库存</th>
-                                    <th>商品颜色</th>
-                                    <th>商品折扣</th>
-                                    <th>在售/下架</th>
+                                    <th style="display:none">管理员序号</th>
+                                    <th>账号</th>
+                                    <th>邮箱</th>
+                                    <th>等级</th>
                                     <th>最后操作人</th>
+                                    <th>创建时间</th>
+                                    <th>更新时间</th>
                                     <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <c:forEach items="${glist.date}" var="g">
+                                <c:forEach items="${msg.date}" var="m">
                                 <tr>
-                                    <td style="display:none">${g.goods_id}</td>
-                                    <td>${g.goods_name}</td>
-                                    <td>${g.goods_price}</td>
-                                    <td>${g.goods_description}</td>
-                                    <td>${g.goods_number}</td>
-                                    <td>${g.goods_color}</td>
-                                    <td>${g.goods_discount}</td>
-                                    <td class="type">${g.goods_type}</td>
-                                    <td >${g.username}</td>
+                                    <td  style="display:none">${m.uid}</td>
+                                    <td>${m.username}</td>
+                                    <td>${m.email}</td>
+                                    <td>${m.user_level}</td>
+                                    <td>${m.operator}</td>
+                                    <td>${m.create_time}</td>
+                                    <td >${m.update_time}</td>
                                     <td>
-                                        <button onclick="toType2(this)" class="btn btn-success btn-xs"><i class="fa fa-sort-up"></i></button>
-                                        <button onclick="toType(this)" class="btn btn-primary btn-xs"><i class="fa fa-sort-desc"></i></button>
-                                        <button onclick="todelete(this)" class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
-                                            <%--<button  onclick="toupdate(this)" id = "button" class="btn btn-danger btn-xs"><i class="fa fa-edit "></i></button>--%>
-                                        <button   id = "button" class="btn btn-danger btn-xs"><a href="${pageContext.request.contextPath}/backed/goods/selectonegoods?goods_id=${g.goods_id}"><i class="fa fa-edit "></i></a></button>
+                                        <c:if test="${user.type eq 1}">
+                                            <button onclick="todelete(this)" class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
+                                        </c:if>
+                                        <button class="btn btn-danger btn-xs "><a href="${pageContext.request.contextPath}/backed/index/reset?a=${m.uid}"><i class="fa fa-edit "></i></a></button>
                                     </td>
                                 </tr>
                                 </tbody>
                                 </c:forEach>
                             </table>
                         </c:if>
+
                     </div>
                     <!-- /content-panel -->
                 </div>
@@ -189,8 +171,9 @@
             </div>
 
         </section>
-        <c:if test="${empty glist.date}">
-            <h3 style="margin-left: 20px">没有更多的商品~</h3>
+        <%--//修改密码--%>
+        <c:if test="${empty msg.date}">
+            <h3 style="margin-left: 20px">没有更多的管理员~</h3>
         </c:if>
     </section>
 
@@ -206,72 +189,24 @@
 <script src="${pageContext.request.contextPath}/lib/common-scripts.js"></script>
 <!--script for this page-->
 <script>
-   /* $("#button").click(function(){
-        $("#b").toggle();
-    });
-    $("#button").click(function(){
-        $("#h").toggle();
-    });*/
-
-    function toType(but) {
-        var a = $(but).parent().parent().children().first().text();
-        var b = $(but).parent().parent().children().first().nextAll(".type").text();
-        if(b==1){
-            alert("商品已下架！")
-        }
-        $.get(
-            "/backed/goods/totype",
-            {goods_id:a},
-            function (date) {
-                if(date>0){
-                    $(but).parent().parent().children().first().nextAll(".type").text(1);
-                }
-            }
-        )
-    }
-    //上架
-    function toType2(but) {
-        var a = $(but).parent().parent().children().first().text();
-        var b = $(but).parent().parent().children().first().nextAll(".type").text();
-        if(b==0){
-            alert("商品已上架！")
-        }
-        $.get(
-            "/backed/goods/totype",
-            {goods_id:a},
-            function (date) {
-                if(date>0){
-                    $(but).parent().parent().children().first().nextAll(".type").text(0);
-                }
-            }
-        )
-    }
+    /* $(".update").click(function(){
+         $("#login-page").show();
+     });*/
     function todelete(but) {
         var a = $(but).parent().parent().children().first().text();
         alert(a);
         $.get(
-            "/backed/goods/deletegoods",
-            {goods_id:a},
+            "/backed/users/deleteuser",
+            {uid:a},
             function (date) {
                 if(date>0){
                     alert(date),
-                    $(but).parent().parent().remove();
+                        $(but).parent().parent().remove();
                 }
             }
         )
     }
-    /*function toupdate(but) {
-        var a = $(but).parent().parent().children().first().text();
-        $.get(
-            "/backed/goods/selectonegoods",
-            {goods_id:a},
-            function (date) {
-                if(date ) {
-                    alert(有参数)
-                }
-            }
-        )
-    }*/
+
 </script>
 </body>
 

@@ -29,11 +29,12 @@ public class FullFilter implements Filter {
             chain.doFilter(request, response);
         } else if("forget_password".equals(split[split.length-1])){
             chain.doFilter(request, response);
+        } else if("getmsg".equals(split[split.length-1])){
+            chain.doFilter(request, response);
         } else{
             //其它请求斗西游验证管理员权限以及是否登录，定位到一个页面
             HttpSession session = ((HttpServletRequest) request).getSession();
             Users us =(Users) session.getAttribute("user");
-            System.out.println("进来了");
             if(us == null || us.getType() != 1){
                 request.getRequestDispatcher("/WEB-INF/noaccess.jsp").forward(request,response);
             }else {

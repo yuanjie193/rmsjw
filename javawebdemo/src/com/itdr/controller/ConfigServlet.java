@@ -23,6 +23,15 @@ public class ConfigServlet extends HttpServlet {
             case "register":
                 register(request,response);
                 break;
+            case "addgoods":
+                addGoods(request,response);
+                break;
+            case "reset":
+                reset(request,response);
+                break;
+            case "addmsg":
+                addMsg(request,response);
+                break;
         }
     }
     private void home(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -30,5 +39,17 @@ public class ConfigServlet extends HttpServlet {
     }
     private void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("/WEB-INF/register.jsp").forward(request,response);
+    }
+    private void addGoods(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("/WEB-INF/addgoods.jsp").forward(request,response);
+    }
+    private void reset(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String a = request.getParameter("a");
+        System.out.println(a);
+        request.setAttribute("uid",a);
+        request.getRequestDispatcher("/WEB-INF/chongzhi.jsp").forward(request,response);
+    }
+    private void addMsg(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("/WEB-INF/addmsg.jsp").forward(request,response);
     }
 }

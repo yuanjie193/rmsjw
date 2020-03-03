@@ -6,7 +6,6 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -247,7 +246,7 @@
                 <p class="centered"><a href="profile.html"><img src="${pageContext.request.contextPath}/img/ui-sam.jpg" class="img-circle" width="80"></a></p>
                 <h5 class="centered">${user.username}</h5>
                 <li class="sub-menu">
-                    <a class="active"  href="javascript:;">
+                    <a   href="javascript:;">
                         <i class="fa fa-desktop"></i>
                         <span>商品管理</span>
                     </a>
@@ -257,18 +256,17 @@
                     </ul>
                 </li>
                 <li class="sub-menu">
-                    <a href="javascript:;">
+                    <a href="javascript:;" class="active">
                         <i class="fa fa-cogs"></i>
                         <span>管理员</span>
                     </a>
                     <ul class="sub">
                         <li><a href="${pageContext.request.contextPath}/backed/users/getmsg">我的管理员</a></li>
                         <c:if test="${user.type eq 1}">
-                        <li><a href="${pageContext.request.contextPath}/backed/index/addmsg">添加管理员</a></li>
+                            <li><a href="${pageContext.request.contextPath}/backed/index/addmsg">添加管理员</a></li>
                         </c:if>
                     </ul>
                 </li>
-
             </ul>
             <!-- sidebar menu end-->
         </div>
@@ -280,27 +278,27 @@
     <!--main content start-->
     <section id="main-content">
         <section class="wrapper site-min-height">
-
+                <div id="login-page">
+                    <div class="container">
+                        <form class="form-login" action="${pageContext.request.contextPath}/backed/users/changepassword">
+                            <h2 class="form-login-heading">重置密码</h2>
+                            <div class="login-wrap">
+                                <input type="hidden" value="${uid}" name="um">
+                                旧密码：<input  type="text" class="form-control" placeholder="请输入旧密码" autofocus name="oldPassword">
+                                <br>
+                                新密码：<input  type="password" class="form-control" placeholder="请输入新密码" name="newPassword">
+                                <br>
+                                <label class="checkbox"></label>
+                                <input   class="btn btn-theme btn-block"  type="submit" value="重  置"> </input>
+                                <hr>
+                            </div>
+                        </form>
+                    </div>
+                </div>
         </section>
         <!-- /wrapper -->
     </section>
-    <!-- /MAIN CONTENT -->
-    <!--main content end-->
-    <!--footer start-->
-    <footer class="site-footer">
-        <div class="text-center">
-            <p>
-                &copy; Copyrights <strong>Dashio</strong>. All Rights Reserved
-            </p>
-            <div class="credits">
-                More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a>
-            </div>
-            <a href="blank.html#" class="go-top">
-                <i class="fa fa-angle-up"></i>
-            </a>
-        </div>
-    </footer>
-    <!--footer end-->
+
 </section>
 <!-- js placed at the end of the document so the pages load faster -->
 <script src="${pageContext.request.contextPath}/lib/jquery/jquery.min.js"></script>

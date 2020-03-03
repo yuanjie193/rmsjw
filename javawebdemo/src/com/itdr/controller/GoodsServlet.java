@@ -38,6 +38,18 @@ public class GoodsServlet extends HttpServlet {
             case "deletegoods":
                 deleteGoods(request,response);
                 break;
+            case "addgoods":
+                addGoods(request,response);
+                break;
+            case "updategoods":
+                updateGoods(request,response);
+                break;
+            case "selectonegoods":
+                selectOneGoods(request,response);
+                break;
+            case "goodssort":
+                goodsSort(request,response);
+                break;
         }
 
     }
@@ -58,8 +70,8 @@ public class GoodsServlet extends HttpServlet {
         String sg = request.getParameter("selectgoods");
         System.out.println(sg);
         ResponseCode selectgoods =  goodsService.selectGoods(sg);
-        request.setAttribute("sg",selectgoods);
-        request.getRequestDispatcher("/WEB-INF/glist.jsp").forward(request,response);
+        request.setAttribute("glist",selectgoods);
+        request.getRequestDispatcher("/WEB-INF/glist2.jsp").forward(request,response);
     }
     //删除商品
     private void deleteGoods(HttpServletRequest request,HttpServletResponse response) throws IOException, ServletException {
@@ -67,5 +79,54 @@ public class GoodsServlet extends HttpServlet {
         ResponseCode delete = goodsService.toDelete(id);
         response.getWriter().write(delete.getDate().toString());
 
+    }
+    //增加商品
+    private void addGoods(HttpServletRequest request,HttpServletResponse response) throws IOException, ServletException {
+        String goodsname = request.getParameter("goodsname");
+        String price = request.getParameter("price");
+        String number = request.getParameter("number");
+        String color = request.getParameter("color");
+        String discount = request.getParameter("discount");
+        String description = request.getParameter("description");
+        String checked = request.getParameter("checked");
+        HttpSession session = request.getSession();
+        Users user =(Users) session.getAttribute("user");
+        ResponseCode addGoods = goodsService.addGoods(user.getUid(),goodsname,price,number,color,discount,description,checked);
+        getAllGoods(request,response);
+    }
+    //更新商品
+    private void updateGoods(HttpServletRequest request,HttpServletResponse response) throws IOException, ServletException {
+        String goodsname = request.getParameter("goodsname");
+        String goods_id = request.getParameter("goods_id");
+        System.out.println(goods_id);
+        String price = request.getParameter("price");
+        String number = request.getParameter("number");
+        String color = request.getParameter("color");
+        String discount = request.getParameter("discount");
+        String description = request.getParameter("description");
+        String checked = request.getParameter("checked");
+        HttpSession session = request.getSession();
+        Users user =(Users) session.getAttribute("user");
+        ResponseCode addGoods = goodsService.updateGoods(user.getUid(),goods_id,goodsname,price,number,color,discount,description,checked);
+        getAllGoods(request,response);
+    }
+    //获取当前商品
+    private void selectOneGoods(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
+        String goodsId = request.getParameter("goods_id");
+        System.out.println(goodsId);
+        ResponseCode g = goodsService.selectOneGoods(goodsId);
+        System.out.println(g.getDate());
+        request.setAttribute("g",g.getDate());
+        request.getRequestDispatcher("/WEB-INF/updategoods.jsp").forward(request,response);
+    }
+    //对商品价格或商品库存进行排序
+    private void goodsSort(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        String field = request.getParameter("field");
+        String way = request.getParameter("way");
+        System.out.println(field);
+        System.out.println(way);
+        ResponseCode g = goodsService.goodsSort(field,way);
+        request.setAttribute("glist",g);
+        request.getRequestDispatcher("/WEB-INF/glist2.jsp").forward(request,response);
     }
 }

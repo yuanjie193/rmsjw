@@ -13,7 +13,7 @@ public class GoodsDao {
     public List<Goods> selectALLGoods(){
         QueryRunner queryRunner =new QueryRunner(C3p0Util.getCom());
         List<Goods> query = null;
-        String sql = "select goods_id,goods_type,goods_name,goods_price," +
+        String sql = "select uid,goods_id,goods_type,goods_name,goods_price," +
                 "goods_description,goods_discount,goods_number,goods_color,creat_time,update_time from goods ";
         try {
            query = queryRunner.query(sql, new BeanListHandler<Goods>(Goods.class));
@@ -25,7 +25,7 @@ public class GoodsDao {
     public Goods selectById(int i ){
         QueryRunner queryRunner =new QueryRunner(C3p0Util.getCom());
          Goods query = null;
-        String sql = "select goods_id,goods_type,goods_name,goods_price," +
+        String sql = "select uid,goods_id,goods_type,goods_name,goods_price," +
                 "goods_description,goods_discount,goods_number,goods_color,creat_time,update_time from goods " +
                 "where goods_id = ?";
         try {
@@ -52,12 +52,12 @@ public class GoodsDao {
     public List<Goods>  selectByName(String i ){
         QueryRunner queryRunner =new QueryRunner(C3p0Util.getCom());
         List<Goods> query = null;
-        String sql = "select goods_id,goods_type,goods_name,goods_price," +
+        String sql = "select uid,goods_id,goods_type,goods_name,goods_price," +
                 "goods_description,goods_discount,goods_number,goods_color,creat_time,update_time from goods " +
-                "where goods_name like ?";
+                "where goods_name like ? or goods_description like ?";
         try {
             String s = "%"+i+"%";
-             query = queryRunner.query(sql, new BeanListHandler<Goods>(Goods.class), s);
+             query = queryRunner.query(sql, new BeanListHandler<Goods>(Goods.class),s,s);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -74,5 +74,71 @@ public class GoodsDao {
             e.printStackTrace();
         }
         return a;
+    }
+
+    public int addGoods(Integer uid,String goodsname, String price, String number, String color, String discount, String description, Integer checked) {
+        QueryRunner queryRunner =new QueryRunner(C3p0Util.getCom());
+        int a = 0;
+        String sql = "insert into goods values(?,null,?,?,null,?,?,?,?,?,now(),now())";
+        try {
+            a = queryRunner.update(sql,uid,checked,goodsname,price,description,discount,number,color);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return a;
+    }
+
+    public int updateGoods(Integer uid, int goods_id, String goodsname, String price, String number, String color, String discount, String description, int checked) {
+        QueryRunner queryRunner =new QueryRunner(C3p0Util.getCom());
+        int a = 0;
+        String sql = "update goods set uid= ?,goods_type=? ,goods_price=?,goods_description=?," +
+                "goods_discount=?,goods_number=?,goods_color=?,update_time=now()"+
+                " where goods_id = ? ";
+        try {
+            a = queryRunner.update(sql,uid,checked,price,description,discount,number,color,goods_id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return a;
+
+    }
+
+    /**
+     * 对商品价格或库存进行排序
+     * @param f
+     * @param way
+     * @return
+     */
+
+    public List<Goods> goodsSort(String f,String way) {
+        QueryRunner queryRunner =new QueryRunner(C3p0Util.getCom());
+        List<Goods> query = null;
+        String sql = null;
+        if(f.equals("goods_price")&& way.equals("asc")){
+            sql = "select uid,goods_id,goods_type,goods_name,goods_price," +
+                    "goods_description,goods_discount,goods_number,goods_color,creat_time," +
+                    "update_time from goods order by goods_price";
+        }
+        if(f.equals("goods_price")&& way.equals("desc")){
+             sql = "select uid,goods_id,goods_type,goods_name,goods_price," +
+                    "goods_description,goods_discount,goods_number,goods_color,creat_time," +
+                    "update_time from goods order by goods_price desc";
+        }
+        if(f.equals("goods_number")&& way.equals("asc")){
+          sql = "select uid,goods_id,goods_type,goods_name,goods_price," +
+                    "goods_description,goods_discount,goods_number,goods_color,creat_time," +
+                    "update_time from goods order by goods_number ";
+        }
+        if(f.equals("goods_number")&& way.equals("desc")){
+            sql = "select uid,goods_id,goods_type,goods_name,goods_price," +
+                    "goods_description,goods_discount,goods_number,goods_color,creat_time," +
+                    "update_time from goods order by goods_number desc";
+        }
+        try {
+            query = queryRunner.query(sql, new BeanListHandler<Goods>(Goods.class));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return query;
     }
 }

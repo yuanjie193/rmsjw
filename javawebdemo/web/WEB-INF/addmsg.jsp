@@ -27,7 +27,12 @@
     <!-- Custom styles for this template -->
     <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/css/style-responsive.css" rel="stylesheet">
-
+    <style>
+        #a{
+            border-radius: 20px;
+            padding-top: 20px;
+        }
+    </style>
 
 </head>
 
@@ -247,7 +252,7 @@
                 <p class="centered"><a href="profile.html"><img src="${pageContext.request.contextPath}/img/ui-sam.jpg" class="img-circle" width="80"></a></p>
                 <h5 class="centered">${user.username}</h5>
                 <li class="sub-menu">
-                    <a class="active"  href="javascript:;">
+                    <a   href="javascript:;">
                         <i class="fa fa-desktop"></i>
                         <span>商品管理</span>
                     </a>
@@ -257,18 +262,17 @@
                     </ul>
                 </li>
                 <li class="sub-menu">
-                    <a href="javascript:;">
+                    <a href="javascript:;" class="active">
                         <i class="fa fa-cogs"></i>
                         <span>管理员</span>
                     </a>
                     <ul class="sub">
                         <li><a href="${pageContext.request.contextPath}/backed/users/getmsg">我的管理员</a></li>
                         <c:if test="${user.type eq 1}">
-                        <li><a href="${pageContext.request.contextPath}/backed/index/addmsg">添加管理员</a></li>
+                            <li><a href="${pageContext.request.contextPath}/backed/index/addmsg">添加管理员</a></li>
                         </c:if>
                     </ul>
                 </li>
-
             </ul>
             <!-- sidebar menu end-->
         </div>
@@ -279,28 +283,66 @@
         *********************************************************************************************************************************************************** -->
     <!--main content start-->
     <section id="main-content">
-        <section class="wrapper site-min-height">
+        <section class="wrapper">
+            <h3><i class="fa fa-angle-right"></i> 添加管理员</h3>
+            <!-- BASIC FORM VALIDATION -->
+            <div class="row mt">
+                <div class="col-lg-3"></div>
+                <div class="col-lg-5">
+                    <div class="form-panel" id="a">
+                        <form role="form" class="form-horizontal style-form" action="${pageContext.request.contextPath}/backed/users/addmsg">
+                            <div class="form-group has-success">
+                                <label class="col-lg-2 control-label">用户名：</label>
+                                <div class="col-lg-9">
+                                    <input type="text" placeholder="请输入用户名" id="f-name" class="form-control" name="username">
+                                    <p class="help-block"></p>
+                                </div>
+                            </div>
+                            <div class="form-group has-success">
+                                <label class="col-lg-2 control-label">密码：</label>
+                                <div class="col-lg-9">
+                                    <input type="password" placeholder="请输入密码" id="l-name" class="form-control" name="password" >
+                                    <p class="help-block"></p>
+                                </div>
+                            </div>
+                            <div class="form-group has-success">
+                                <label class="col-lg-2 control-label">邮箱：</label>
+                                <div class="col-lg-9">
+                                    <input type="email" placeholder="请输入邮箱" id="f-name" class="form-control" name="email">
+                                    <p class="help-block"></p>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                            <label for="newsletter" class="control-label col-lg-3 col-sm-3"> 超级管理员：</label>
+                            <div class="col-lg-9 col-sm-9">
+                                <input type="radio" style="width: 20px" class="checkbox form-control" id="newsletter" name="checked1" />
+                            </div>
+                            </div>
+                            <div class="form-group ">
+                                <label for="newsletter" class="control-label col-lg-3 col-sm-3"> 普通管理员：</label>
+                                <div class="col-lg-9 col-sm-9">
+                                    <input type="radio" style="width: 20px" class="checkbox form-control" id="newsletter" name="checked2" checked="checked"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-lg-offset-2 col-lg-10">
+                                    <input style="margin-right: 20px" class="btn btn-theme" type="reset" value="重新输入"></input>
+                                    <input class="btn btn-theme" type="submit" value="添加管理员"></input>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                    <!-- /form-panel -->
+                </div>
+                <!-- /col-lg-12 -->
+            </div>
 
         </section>
         <!-- /wrapper -->
     </section>
-    <!-- /MAIN CONTENT -->
-    <!--main content end-->
-    <!--footer start-->
-    <footer class="site-footer">
-        <div class="text-center">
-            <p>
-                &copy; Copyrights <strong>Dashio</strong>. All Rights Reserved
-            </p>
-            <div class="credits">
-                More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a>
-            </div>
-            <a href="blank.html#" class="go-top">
-                <i class="fa fa-angle-up"></i>
-            </a>
-        </div>
-    </footer>
-    <!--footer end-->
+
 </section>
 <!-- js placed at the end of the document so the pages load faster -->
 <script src="${pageContext.request.contextPath}/lib/jquery/jquery.min.js"></script>
@@ -313,7 +355,9 @@
 <!--common script for all pages-->
 <script src="${pageContext.request.contextPath}/lib/common-scripts.js"></script>
 <!--script for this page-->
+<script>
 
+</script>
 </body>
 
 </html>
