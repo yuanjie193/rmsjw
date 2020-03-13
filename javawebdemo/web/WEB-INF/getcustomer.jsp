@@ -7,7 +7,6 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="C" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -58,6 +57,9 @@
         <!--logo start-->
         <a href="index.html" class="logo"><b>DASH<span>IO</span></b></a>
         <!--logo end-->
+        <div class="nav notify-row" id="top_menu">
+
+        </div>
         <div class="top-menu">
             <ul class="nav pull-right top-menu">
                 <li>
@@ -86,7 +88,7 @@
                     </a>
                 </li>
                 <li class="sub-menu">
-                    <a class="active"  href="javascript:;">
+                    <a  href="javascript:;">
                         <i class="fa fa-desktop"></i>
                         <span>商品管理</span>
                     </a>
@@ -107,8 +109,9 @@
                         </c:if>
                     </ul>
                 </li>
+
                 <li class="sub-menu">
-                    <a href="javascript:;">
+                    <a class="active" href="javascript:;">
                         <i class="fa fa-cogs"></i>
                         <span>我的客户</span>
                     </a>
@@ -143,64 +146,48 @@
             <div class="row mt">
                 <div class="col-md-12">
                     <div class="content-panel" id = "h">
-                        <h4><i class="fa fa-angle-right"></i> 全部商品</h4>
-                        <form  id = "ff" class="form-inline" role="form" action="${pageContext.request.contextPath}/backed/goods/goodssort">
-                            <select name="field" class="form-control" >
-                                <option value="goods_price" >商品价格</option>
-                                <option value="goods_number">商品库存</option>
-                            </select>
-                            <select name="way" class="form-control" >
-                                <option value="asc" >从低到高</option>
-                                <option value="desc">从高到低</option>
-                            </select>
-                            <input type="submit" class="btn btn-theme" value="搜 索"></input>
-                        </form>
-                        <form class="form-inline" role="form" action="${pageContext.request.contextPath}/backed/goods/selectgoods"  >
-                            <div class="form-group" id="a">
-                                <label class="sr-only" for="exampleInputEmail2">Email address</label>
-                                <input type="text" class="form-control" id="exampleInputEmail2" placeholder="商品名称/描述/颜色" name="selectgoods">
-                            </div>
-                            <input type="submit" class="btn btn-theme" value="搜 索"></input>
-                        </form>
+                        <h4><i class="fa fa-angle-right"></i> 全部客户</h4>
 
-                        <c:if test="${not empty glist.date}">
+                        <c:if test="${not empty clist.date}">
                             <table class="table table-striped table-advance table-hover">
                                     <%--<h4><i class="fa fa-angle-right"></i>  全部商品</h4>--%>
                                 <hr>
                                 <thead>
                                 <tr>
-                                    <th style="display:none">商品序号</th>
-                                    <th>商品名称</th>
-                                    <th>商品价格</th>
-                                    <th>商品描述</th>
-                                    <th>商品库存</th>
-                                    <th>商品颜色</th>
-                                    <th>商品折扣</th>
-                                    <th>在售/下架</th>
-                                    <th>最后操作人</th>
+                                    <th style="display:none">客户序号</th>
+                                    <th>客户昵称</th>
+                                    <th>客户邮箱</th>
+                                    <th>客户电话</th>
+                                    <th>客户等级</th>
+                                    <th>创建时间</th>
                                     <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <c:forEach items="${glist.date}" var="g">
+                                <c:forEach items="${clist.date}" var="c">
                                 <tr>
-                                    <td style="display:none">${g.goods_id}</td>
-                                    <td>${g.goods_name}</td>
-                                    <td>${g.goods_price}</td>
-                                    <td>${g.goods_description}</td>
-                                    <td>${g.goods_number}</td>
-                                    <td>${g.goods_color}</td>
-                                    <td>${g.goods_discount}</td>
-                                    <td class="type">${g.goods_type}</td>
-                                    <td >${g.username}</td>
+                                    <td style="display:none">${c.id}</td>
+                                    <td>${c.username}</td>
+                                    <td>${c.email}</td>
+                                    <td>${c.phone}</td>
+                                    <c:if test="${c.role eq 0}">
+                                        <td>青铜</td>
+                                    </c:if>
+                                    <c:if test="${c.role eq 1}">
+                                        <td>白银</td>
+                                    </c:if>
+                                    <c:if test="${c.role eq 2}">
+                                    <td>黄金</td>
+                                    </c:if>
+                                    <c:if test="${c.role eq 3}">
+                                        <td>铂金</td>
+                                    </c:if>
+                                    <c:if test="${c.role eq 4}">
+                                        <td>钻石</td>
+                                    </c:if>
+                                    <td>${c.create_time}</td>
                                     <td>
-                                        <button onclick="toType2(this)" class="btn btn-success btn-xs"><i class="fa fa-sort-up"></i></button>
-                                        <button onclick="toType(this)" class="btn btn-primary btn-xs"><i class="fa fa-sort-desc"></i></button>
-                                        <c:if test="${user.type eq 1}">
-                                        <button onclick="todelete(this)" class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
-                                        </c:if>
-                                            <%--<button  onclick="toupdate(this)" id = "button" class="btn btn-danger btn-xs"><i class="fa fa-edit "></i></button>--%>
-                                        <button   id = "button" class="btn btn-danger btn-xs"><a href="${pageContext.request.contextPath}/backed/goods/selectonegoods?goods_id=${g.goods_id}"><i class="fa fa-edit "></i></a></button>
+                                        <button  class="btn btn-success btn-xs"><a href="${pageContext.request.contextPath}/backed/customer/get_customer_detail?id=${c.id}"><i class="fa fa-sort-up"></i>查看详情</a></button>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -212,10 +199,9 @@
                 </div>
                 <!-- /col-md-12 -->
             </div>
-
         </section>
-        <c:if test="${empty glist.date}">
-            <h3 style="margin-left: 20px">没有更多的商品~</h3>
+        <c:if test="${clist.status eq 200 and empty list.date } ">
+            <h3 style="margin-left: 20px">暂无客户~</h3>
         </c:if>
     </section>
 
@@ -231,12 +217,12 @@
 <script src="${pageContext.request.contextPath}/lib/common-scripts.js"></script>
 <!--script for this page-->
 <script>
-   /* $("#button").click(function(){
-        $("#b").toggle();
-    });
-    $("#button").click(function(){
-        $("#h").toggle();
-    });*/
+    /* $("#button").click(function(){
+         $("#b").toggle();
+     });
+     $("#button").click(function(){
+         $("#h").toggle();
+     });*/
 
     function toType(but) {
         var a = $(but).parent().parent().children().first().text();
@@ -280,7 +266,7 @@
             function (date) {
                 if(date>0){
                     alert(date),
-                    $(but).parent().parent().remove();
+                        $(but).parent().parent().remove();
                 }
             }
         )

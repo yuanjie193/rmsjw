@@ -43,6 +43,9 @@ public class UserServlet extends HttpServlet {
             case "deleteuser":
                 deleteUser(request,response);
                 break;
+            case "get_home":
+                getHome(request,response);
+                break;
         }
     }
 
@@ -56,6 +59,8 @@ public class UserServlet extends HttpServlet {
         Users date = login.getDate();
         session.setAttribute("user",date);
 //        request.setAttribute("user",login);
+        ResponseCode responseCode = selectInformation(request, response);
+        request.setAttribute("home",responseCode);
         request.getRequestDispatcher("/WEB-INF/home2.jsp").forward(request,response);
     }
     //获取管理员信息
@@ -116,5 +121,14 @@ public class UserServlet extends HttpServlet {
         }
         System.out.println(delete.getDate().toString());
         response.getWriter().write(delete.getDate().toString());
+    }
+    private ResponseCode selectInformation(HttpServletRequest request,HttpServletResponse response) throws IOException, ServletException {
+      ResponseCode r =  userService.selectInformation();
+      return r;
+    }
+    private void getHome(HttpServletRequest request,HttpServletResponse response) throws IOException, ServletException {
+        ResponseCode responseCode = selectInformation(request, response);
+        request.setAttribute("home",responseCode);
+        request.getRequestDispatcher("/WEB-INF/home2.jsp").forward(request,response);
     }
 }

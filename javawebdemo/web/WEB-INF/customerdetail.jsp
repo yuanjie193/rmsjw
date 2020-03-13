@@ -1,13 +1,19 @@
 <%--
   Created by IntelliJ IDEA.
   User: 12985
+  Date: 2020/3/10
+  Time: 12:46
+  To change this template use File | Settings | File Templates.
+--%>
+<%--
+  Created by IntelliJ IDEA.
+  User: 12985
   Date: 2020/2/26
   Time: 18:32
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="C" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,6 +44,10 @@
             position: relative;
             top:35px;
             left: 2%;
+        }
+        #foot{
+            height: 80px;
+            width: 100%;
         }
 
     </style>
@@ -86,7 +96,7 @@
                     </a>
                 </li>
                 <li class="sub-menu">
-                    <a class="active"  href="javascript:;">
+                    <a   href="javascript:;">
                         <i class="fa fa-desktop"></i>
                         <span>商品管理</span>
                     </a>
@@ -117,7 +127,7 @@
                     </ul>
                 </li>
                 <li class="sub-menu">
-                    <a href="javascript:;">
+                    <a class="active" href="javascript:;">
                         <i class="fa fa-cogs"></i>
                         <span>订单管理</span>
                     </a>
@@ -140,82 +150,71 @@
     <section id="main-content">
         <section class="wrapper">
             <!-- row -->
-            <div class="row mt">
+            <h3><i class="fa fa-angle-right"></i>客户详情</h3>
+            <div class="row mt" >
+                <c:if test="${ all.status eq 200 and not empty all.date}">
                 <div class="col-md-12">
                     <div class="content-panel" id = "h">
-                        <h4><i class="fa fa-angle-right"></i> 全部商品</h4>
-                        <form  id = "ff" class="form-inline" role="form" action="${pageContext.request.contextPath}/backed/goods/goodssort">
-                            <select name="field" class="form-control" >
-                                <option value="goods_price" >商品价格</option>
-                                <option value="goods_number">商品库存</option>
-                            </select>
-                            <select name="way" class="form-control" >
-                                <option value="asc" >从低到高</option>
-                                <option value="desc">从高到低</option>
-                            </select>
-                            <input type="submit" class="btn btn-theme" value="搜 索"></input>
-                        </form>
-                        <form class="form-inline" role="form" action="${pageContext.request.contextPath}/backed/goods/selectgoods"  >
-                            <div class="form-group" id="a">
-                                <label class="sr-only" for="exampleInputEmail2">Email address</label>
-                                <input type="text" class="form-control" id="exampleInputEmail2" placeholder="商品名称/描述/颜色" name="selectgoods">
-                            </div>
-                            <input type="submit" class="btn btn-theme" value="搜 索"></input>
-                        </form>
-
-                        <c:if test="${not empty glist.date}">
+                        <c:if test="${not empty all.date}">
+                            <h4><i class="fa fa-angle-right"></i>  客户详情</h4>
                             <table class="table table-striped table-advance table-hover">
                                     <%--<h4><i class="fa fa-angle-right"></i>  全部商品</h4>--%>
                                 <hr>
                                 <thead>
                                 <tr>
-                                    <th style="display:none">商品序号</th>
-                                    <th>商品名称</th>
-                                    <th>商品价格</th>
-                                    <th>商品描述</th>
-                                    <th>商品库存</th>
-                                    <th>商品颜色</th>
-                                    <th>商品折扣</th>
-                                    <th>在售/下架</th>
-                                    <th>最后操作人</th>
-                                    <th></th>
+                                    <th >客户ID</th>
+                                    <th>客户账户</th>
+                                    <th>客户邮箱</th>
+                                    <th>客户电话</th>
+                                    <th>密保问题</th>
+                                    <th>密保答案</th>
+                                    <th>客户等级</th>
+                                    <th>客户IP</th>
+                                    <th>创建时间</th>
+                                    <th>更新a时间</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <c:forEach items="${glist.date}" var="g">
                                 <tr>
-                                    <td style="display:none">${g.goods_id}</td>
-                                    <td>${g.goods_name}</td>
-                                    <td>${g.goods_price}</td>
-                                    <td>${g.goods_description}</td>
-                                    <td>${g.goods_number}</td>
-                                    <td>${g.goods_color}</td>
-                                    <td>${g.goods_discount}</td>
-                                    <td class="type">${g.goods_type}</td>
-                                    <td >${g.username}</td>
-                                    <td>
-                                        <button onclick="toType2(this)" class="btn btn-success btn-xs"><i class="fa fa-sort-up"></i></button>
-                                        <button onclick="toType(this)" class="btn btn-primary btn-xs"><i class="fa fa-sort-desc"></i></button>
-                                        <c:if test="${user.type eq 1}">
-                                        <button onclick="todelete(this)" class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
-                                        </c:if>
-                                            <%--<button  onclick="toupdate(this)" id = "button" class="btn btn-danger btn-xs"><i class="fa fa-edit "></i></button>--%>
-                                        <button   id = "button" class="btn btn-danger btn-xs"><a href="${pageContext.request.contextPath}/backed/goods/selectonegoods?goods_id=${g.goods_id}"><i class="fa fa-edit "></i></a></button>
-                                    </td>
+                                    <td >${all.date.id}</td>
+                                    <td>${all.date.username}</td>
+                                    <td>${all.date.email}</td>
+                                    <td>${all.date.phone}</td>
+                                    <td>${all.date.question}</td>
+                                    <td>${all.date.answer}</td>
+                                    <c:if test="${all.date.role eq 0}">
+                                        <td>青铜</td>
+                                    </c:if>
+                                    <c:if test="${all.date.role eq 1}">
+                                        <td>白银</td>
+                                    </c:if>
+                                    <c:if test="${all.date.role eq 2}">
+                                        <td>黄金</td>
+                                    </c:if>
+                                    <c:if test="${all.date.role eq 3}">
+                                        <td>铂金</td>
+                                    </c:if>
+                                    <c:if test="${all.date.role eq 4}">
+                                        <td>钻石</td>
+                                    </c:if>
+                                    <td>${all.date.ip}</td>
+                                    <td >${all.date.create_time}</td>
+                                    <td >${all.date.update_time}</td>
                                 </tr>
                                 </tbody>
-                                </c:forEach>
                             </table>
+                        </c:if>
                         </c:if>
                     </div>
                     <!-- /content-panel -->
                 </div>
                 <!-- /col-md-12 -->
+                <%--第二个表--%>
             </div>
-
+            <div id="foot"></div>
         </section>
-        <c:if test="${empty glist.date}">
-            <h3 style="margin-left: 20px">没有更多的商品~</h3>
+        <c:if test="${empty all.date}">
+            <h3 style="margin-left: 20px">暂无详情~~</h3>
         </c:if>
     </section>
 
@@ -230,74 +229,7 @@
 <!--common script for all pages-->
 <script src="${pageContext.request.contextPath}/lib/common-scripts.js"></script>
 <!--script for this page-->
-<script>
-   /* $("#button").click(function(){
-        $("#b").toggle();
-    });
-    $("#button").click(function(){
-        $("#h").toggle();
-    });*/
-
-    function toType(but) {
-        var a = $(but).parent().parent().children().first().text();
-        var b = $(but).parent().parent().children().first().nextAll(".type").text();
-        if(b==1){
-            alert("商品已下架！")
-        }
-        $.get(
-            "/backed/goods/totype",
-            {goods_id:a},
-            function (date) {
-                if(date>0){
-                    $(but).parent().parent().children().first().nextAll(".type").text(1);
-                }
-            }
-        )
-    }
-    //上架
-    function toType2(but) {
-        var a = $(but).parent().parent().children().first().text();
-        var b = $(but).parent().parent().children().first().nextAll(".type").text();
-        if(b==0){
-            alert("商品已上架！")
-        }
-        $.get(
-            "/backed/goods/totype",
-            {goods_id:a},
-            function (date) {
-                if(date>0){
-                    $(but).parent().parent().children().first().nextAll(".type").text(0);
-                }
-            }
-        )
-    }
-    function todelete(but) {
-        var a = $(but).parent().parent().children().first().text();
-        alert(a);
-        $.get(
-            "/backed/goods/deletegoods",
-            {goods_id:a},
-            function (date) {
-                if(date>0){
-                    alert(date),
-                    $(but).parent().parent().remove();
-                }
-            }
-        )
-    }
-    /*function toupdate(but) {
-        var a = $(but).parent().parent().children().first().text();
-        $.get(
-            "/backed/goods/selectonegoods",
-            {goods_id:a},
-            function (date) {
-                if(date ) {
-                    alert(有参数)
-                }
-            }
-        )
-    }*/
-</script>
 </body>
 
 </html>
+

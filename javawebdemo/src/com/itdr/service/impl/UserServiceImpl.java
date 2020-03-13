@@ -2,15 +2,32 @@ package com.itdr.service.impl;
 
 
 import com.itdr.common.ResponseCode;
+import com.itdr.dao.GoodsDao;
+import com.itdr.dao.OrderDao;
+import com.itdr.dao.OrderItemDao;
 import com.itdr.dao.UserDao;
+import com.itdr.pojo.Goods;
+import com.itdr.pojo.Order;
+import com.itdr.pojo.OrderItem;
 import com.itdr.pojo.Users;
+import com.itdr.pojo.VO.HomeVO;
 import com.itdr.service.UserService;
 
+import com.itdr.utils.BigDecimalUtil;
+import com.itdr.utils.toObjectUtil;
+
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
     private UserDao userDao = new UserDao();
+    private OrderDao orderDao = new OrderDao();
+    private GoodsDao goodsDao = new GoodsDao();
+    private OrderItemDao orderItemDao = new OrderItemDao();
     @Override
     public ResponseCode<Users> login(String username, String password) {
         //参数非空判断
@@ -123,5 +140,89 @@ public class UserServiceImpl implements UserService {
         }
         return ResponseCode.toSuccess(a);
 
+    }
+    //获取首页信息
+    @Override
+    public ResponseCode selectInformation() {
+        List<Order> orderList = orderDao.selectAllOrder();
+        if(orderList.isEmpty()){
+            ResponseCode.toDefeated("暂无数据");
+        }
+        //获取昨日总收入
+        BigDecimal payment = getPayment(orderList);
+        //待发货，已发货和交易成功订单
+        int wait = 0;
+        int b = 0;
+       int c = 0;
+        for (Order order : orderList) {
+            if(order.getStatus() == 20){
+                wait=wait+1;
+            }
+            if(order.getStatus() == 40){
+                b = b+1;
+            }
+            if(order.getStatus() == 50){
+                c = c+1;
+            }
+        }
+        int num = 1;
+        List<Goods> goodsList = goodsDao.goodsSort2("goods_number",num);
+        if(goodsList.isEmpty()){
+            ResponseCode.toDefeated("暂无数据");
+        }
+        Goods goods = goodsList.get(0);
+        //昨日售出商品数
+        int number = getNumber(orderList);
+        HomeVO homeVO = toObjectUtil.getHomeVO(wait, b, payment, goods.getGoods_name(), c, number);
+        if(homeVO == null){
+            ResponseCode.toDefeated("暂无数据");
+        }
+        return ResponseCode.toSuccess(homeVO);
+    }
+    //昨日总收入
+    private BigDecimal getPayment(List<Order> orderList){
+        Calendar c1 =Calendar.getInstance();
+        //获取当前天数
+        System.out.println(c1.get(Calendar.DAY_OF_MONTH));
+        System.out.println(c1.get(Calendar.MONTH));
+        System.out.println(c1.get(Calendar.YEAR));
+        BigDecimal b = new BigDecimal(0);
+        Calendar c2 =Calendar.getInstance();
+        for (Order order : orderList) {
+            Date create_time = order.getCreate_time();
+            if (create_time != null){
+                c2.setTime(create_time);
+             /*   System.out.println(c2.get(Calendar.YEAR) == c1.get(Calendar.YEAR));
+                System.out.println(c2.get(Calendar.MONTH) == c1.get(Calendar.MONTH));
+                System.out.println(c1.get(Calendar.DAY_OF_MONTH) -c1.get(Calendar.DAY_OF_MONTH));*/
+            if(c2.get(Calendar.YEAR) == c1.get(Calendar.YEAR) && c2.get(Calendar.MONTH) == c1.get(Calendar.MONTH) && c1.get(Calendar.DAY_OF_MONTH) -c2.get(Calendar.DAY_OF_MONTH)==1){
+                b = BigDecimalUtil.add(b.doubleValue(),order.getPayment().doubleValue());
+            }
+            }
+        }
+        return b;
+    }
+    //昨日售出商品数
+    private int getNumber(List<Order> orderList){
+        Calendar c1 =Calendar.getInstance();
+        //获取当前天数
+        System.out.println(c1.get(Calendar.DAY_OF_MONTH));
+        System.out.println(c1.get(Calendar.MONTH));
+        System.out.println(c1.get(Calendar.YEAR));
+        int a = 0;
+        Calendar c2 = Calendar.getInstance();
+        for (Order order : orderList) {
+            Date create_time = order.getCreate_time();
+            if(create_time != null){
+            c2.setTime(create_time);
+            if(c2.get(Calendar.YEAR) == c1.get(Calendar.YEAR) && (c2.get(Calendar.MONTH)+1) == (c1.get(Calendar.MONTH)+1) &&c1.get(Calendar.DAY_OF_MONTH) -c2.get(Calendar.DAY_OF_MONTH)==1){
+                List<OrderItem> orderItemList = orderItemDao.selectOrderItemByOrderNo(order.getOrder_no());
+                for (OrderItem orderItem : orderItemList) {
+                    a=a+orderItem.getQuantity();
+                 }
+                }
+            }
+        }
+        return a;
     }
 }

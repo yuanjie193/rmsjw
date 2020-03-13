@@ -141,4 +141,25 @@ public class GoodsDao {
         }
         return query;
     }
+    public List<Goods> goodsSort2(String f,int l) {
+        QueryRunner queryRunner =new QueryRunner(C3p0Util.getCom());
+        List<Goods> query = null;
+        String sql = null;
+        if(f.equals("goods_number") && l == 1){
+            sql = "select uid,goods_id,goods_type,goods_name,goods_price," +
+                    "goods_description,goods_discount,goods_number,goods_color,creat_time," +
+                    "update_time from goods order by goods_number limit 1";
+        }
+        if(f.equals("goods_number") && l == 5){
+            sql = "select uid,goods_id,goods_type,goods_name,goods_price," +
+                    "goods_description,goods_discount,goods_number,goods_color,creat_time," +
+                    "update_time from goods order by goods_number limit 5";
+        }
+        try {
+            query = queryRunner.query(sql, new BeanListHandler<Goods>(Goods.class));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return query;
+    }
 }

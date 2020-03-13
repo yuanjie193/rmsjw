@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: 12985
@@ -5,8 +6,7 @@
   Time: 22:04
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -28,12 +28,13 @@
     <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/css/style-responsive.css" rel="stylesheet">
     <style>
-        .w{
-            font-size: 24px;
-            font-weight: bold;
-            color:#4ECDC4;
+        #a{
+            border-radius: 20px;
+            padding-top: 20px;
         }
+
     </style>
+
 </head>
 
 <body>
@@ -41,7 +42,6 @@
     <!-- **********************************************************************************************************************************************************
         TOP BAR CONTENT & NOTIFICATIONS
         *********************************************************************************************************************************************************** -->
-    <!--header start-->
     <header class="header black-bg">
         <div class="sidebar-toggle-box">
             <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
@@ -67,13 +67,13 @@
                 <p class="centered"><a href="profile.html"><img src="${pageContext.request.contextPath}/img/ui-sam.jpg" class="img-circle" width="80"></a></p>
                 <h5 class="centered">${user.username}</h5>
                 <li class="sub-menu">
-                    <a class="active" href="${pageContext.request.contextPath}/backed/users/get_home">
+                    <a  href="${pageContext.request.contextPath}/backed/users/get_home">
                         <i class="fa fa-desktop"></i>
                         <span>首页</span>
                     </a>
                 </li>
                 <li class="sub-menu">
-                    <a href="javascript:;">
+                    <a class="active"  href="javascript:;">
                         <i class="fa fa-desktop"></i>
                         <span>商品管理</span>
                     </a>
@@ -88,10 +88,8 @@
                         <span>管理员</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="${pageContext.request.contextPath}/backed/users/getmsg">我的管理员</a></li>
-                        <c:if test="${user.type eq 1}">
+                        <li><a href="${pageContext.request.contextPath}/backed/users/getmsg">全部管理员</a></li>
                         <li><a href="${pageContext.request.contextPath}/backed/index/addmsg">添加管理员</a></li>
-                        </c:if>
                     </ul>
                 </li>
                 <li class="sub-menu">
@@ -101,6 +99,7 @@
                     </a>
                     <ul class="sub">
                         <li><a href="${pageContext.request.contextPath}/backed/customer/get_all_customer">所有客户</a></li>
+                        <li><a href="${pageContext.request.contextPath}/backed/order_item/get_all_order_item">订单商品详情</a></li>
                     </ul>
                 </li>
                 <li class="sub-menu">
@@ -110,7 +109,6 @@
                     </a>
                     <ul class="sub">
                         <li><a href="${pageContext.request.contextPath}/backed/order/get_all_order">所有订单</a></li>
-                        <li><a href="${pageContext.request.contextPath}/backed/order_item/get_all_order_item">订单商品详情</a></li>
                     </ul>
                 </li>
             </ul>
@@ -122,103 +120,87 @@
         MAIN CONTENT
         *********************************************************************************************************************************************************** -->
     <!--main content start-->
-    <c:if test="${not empty home && home.status eq 200}">
-    <section id="main-content">
-        <section class="wrapper site-min-height">
-            <div class="row mt mb">
-                <div class="col-lg-12">
-                    <br>
-                    <div class="col-lg-4 col-md-4 col-sm-12">
-                        <div class="dmbox">
-                            <div class="service-icon">
-                                <a class="" href="#"><i class="dm-icon fa fa-rmb fa-3x"></i></a>
-                            </div>
-                            <h4>昨日总收入</h4>
-                            <p class="w">${home.date.totalPrice}</p>
-                        </div>
-                    </div>
-                    <!-- end dmbox -->
-                    <div class="col-lg-4 col-md-4 col-sm-12">
-                        <div class="dmbox">
-                            <div class="service-icon">
-                                <a class="" href="${pageContext.request.contextPath}/backed/goods/goods_number_sort"><i class="dm-icon fa fa-warning fa-3x"></i></a>
-                            </div>
-                            <h4>库存最少商品</h4>
-                            <p class="w">${home.date.goodName}</p>
-                        </div>
-                    </div>
-                    <!-- end dmbox -->
-                    <div class="col-lg-4 col-md-4 col-sm-12">
-                        <div class="dmbox">
-                            <div class="service-icon">
-                                <a class="" href="${pageContext.request.contextPath}/backed/order/success_order"><i class="dm-icon fa fa-tasks fa-3x"></i></a>
-                            </div>
-                            <h4>已完成订单</h4>
-                            <p class="w">${home.date.success}</p>
-                        </div>
-                    </div>
-                    <!-- end dmbox -->
-                </div>
-                <!--  /col-lg-12 -->
-            </div>
-            <!-- /row -->
-            <div class="row mt mb">
-                <div class="col-lg-12">
-                    <div class="col-lg-4 col-md-4 col-sm-12">
-                        <div class="dmbox">
-                            <div class="service-icon">
-                                <a class="" href="${pageContext.request.contextPath}/backed/order/success_order/wait_order"><i class="dm-icon fa fa-truck fa-3x"></i></a>
-                            </div>
-                            <h4>待发货商品数目</h4>
-                            <p class="w">${home.date.pending}</p>
-                        </div>
-                    </div>
-                    <!-- end dmbox -->
-                    <div class="col-lg-4 col-md-4 col-sm-12">
-                        <div class="dmbox">
-                            <div class="service-icon">
-                                <a class="" href="${pageContext.request.contextPath}/backed/order/success_order/send_order"><i class="dm-icon fa fa-truck fa-3x"></i></a>
-                            </div>
-                            <h4>已发货商品</h4>
-                            <p class="w">${home.date.shipped}</p>
-                        </div>
-                    </div>
-                    <!-- end dmbox -->
-                    <div class="col-lg-4 col-md-4 col-sm-12">
-                        <div class="dmbox">
-                            <div class="service-icon">
-                                <a class="" href="${pageContext.request.contextPath}/backed/order/success_order/out_order"><i class="dm-icon fa fa-truck fa-3x"></i></a>
-                            </div>
-                            <h4>昨日售出商品数目</h4>
-                            <p class="w">${home.date.out}</p>
-                        </div>
-                    </div>
 
-                    <!-- end dmbox -->
+    <section id="main-content">
+        <section class="wrapper">
+            <h3><i class="fa fa-angle-right"></i> 更新商品</h3>
+            <!-- BASIC FORM VALIDATION -->
+            <div class="row mt">
+                <div class="col-lg-3"></div>
+                <div class="col-lg-6">
+                    <div class="form-panel" id="a">
+                        <form role="form" class="form-horizontal style-form" action="${pageContext.request.contextPath}/backed/goods/updategoods">
+                            <c:if test="${not empty g}">
+                            <div class="form-group has-success">
+                                <label class="col-lg-2 control-label">商品名称：</label>
+                                <div class="col-lg-9">
+                                    <input type="text" placeholder="请输入商品名称" id="f-name" class="form-control" name="goodsname" value="${g.goods_name}">
+                                    <input type="hidden" name="goods_id"  value="${g.goods_id}">
+                                    <p class="help-block"></p>
+                                </div>
+                            </div>
+                            <div class="form-group has-success">
+                                <label class="col-lg-2 control-label">商品价格：</label>
+                                <div class="col-lg-9">
+                                    <input type="text" placeholder="请输入商品价格" id="l-name" class="form-control" name="price"  value="${g.goods_price}">
+                                    <p class="help-block"></p>
+                                </div>
+                            </div>
+                            <div class="form-group has-success">
+                                <label class="col-lg-2 control-label">商品库存：</label>
+                                <div class="col-lg-9">
+                                    <input type="number" placeholder="请输入商品库存" id="f-name" class="form-control" name="number" value="${g.goods_number}">
+                                    <p class="help-block"></p>
+                                </div>
+                            </div>
+                            <div class="form-group has-success">
+                                <label class="col-lg-2 control-label">商品颜色：</label>
+                                <div class="col-lg-3">
+                                    <input type="text" placeholder="请输入商品颜色" id="f-name" class="form-control" name="color" value="${g.goods_color}" >
+                                    <p class="help-block"></p>
+                                </div>
+                                <label class="col-lg-2 control-label">商品折扣：</label>
+                                <div class="col-lg-3">
+                                    <input type="text" placeholder="请输入商品折扣" id="f-name" class="form-control" name="discount" value="${g.goods_discount}">
+                                    <p class="help-block"></p>
+                                </div>
+                            </div>
+                            <div class="form-group has-success">
+                                <label class="col-lg-2 control-label">商品描述：</label>
+                                <div class="col-lg-9">
+                                    <input type="text" placeholder="请输入商品描述" id="f-name" class="form-control" name="description" value="${g.goods_description}">
+                                    <p class="help-block"></p>
+                                </div>
+                            </div>
+
+                            <div class="form-group ">
+                                <label for="newsletter" class="control-label col-lg-2 col-sm-3">是否上架：</label>
+                                <div class="col-lg-10 col-sm-9">
+                                    <c:if test="${g.goods_type eq 0}">
+                                    <input type="checkbox" style="width: 20px" class="checkbox form-control" id="newsletter" name="checked" checked="checked"/>
+                                    </c:if>
+                                    <c:if test="${g.goods_type eq 1}">
+                                        <input type="checkbox" style="width: 20px" class="checkbox form-control" id="newsletter" name="checked" />
+                                    </c:if>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-offset-2 col-lg-10">
+                                    <input class="btn btn-theme" type="reset" value="重新输入"></input>
+                                    <input class="btn btn-theme" type="submit" value="立即更新"></input>
+                                </div>
+                            </div>
+                            </c:if>
+                        </form>
+                    </div>
+                    <!-- /form-panel -->
                 </div>
-                <!--  /col-lg-12 -->
+                <!-- /col-lg-12 -->
             </div>
         </section>
         <!-- /wrapper -->
     </section>
-    </c:if>
-    <!-- /MAIN CONTENT -->
-    <!--main content end-->
-    <!--footer start-->
-    <footer class="site-footer">
-        <div class="text-center">
-            <p>
-                &copy; Copyrights <strong>Dashio</strong>. All Rights Reserved
-            </p>
-            <div class="credits">
-                More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a>
-            </div>
-            <a href="blank.html#" class="go-top">
-                <i class="fa fa-angle-up"></i>
-            </a>
-        </div>
-    </footer>
-    <!--footer end-->
+
 </section>
 <!-- js placed at the end of the document so the pages load faster -->
 <script src="${pageContext.request.contextPath}/lib/jquery/jquery.min.js"></script>

@@ -50,6 +50,9 @@ public class GoodsServlet extends HttpServlet {
             case "goodssort":
                 goodsSort(request,response);
                 break;
+            case "goods_number_sort":
+                goodsNumberSort(request,response);
+                break;
         }
 
     }
@@ -123,10 +126,14 @@ public class GoodsServlet extends HttpServlet {
     private void goodsSort(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String field = request.getParameter("field");
         String way = request.getParameter("way");
-        System.out.println(field);
-        System.out.println(way);
         ResponseCode g = goodsService.goodsSort(field,way);
         request.setAttribute("glist",g);
         request.getRequestDispatcher("/WEB-INF/glist2.jsp").forward(request,response);
+    }
+    //对商品价格或商品库存进行排序
+    private void goodsNumberSort(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+       ResponseCode r =  goodsService.goodsNumberSort();
+       request.setAttribute("glist",r);
+       request.getRequestDispatcher("/WEB-INF/glist2.jsp").forward(request,response);
     }
 }

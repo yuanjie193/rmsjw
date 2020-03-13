@@ -19,4 +19,7 @@ public interface GoodsService {
     ResponseCode selectOneGoods(String goodsId);
 
     ResponseCode goodsSort(String field,String way);
+
+    ResponseCode goodsNumberSort();
+
 }

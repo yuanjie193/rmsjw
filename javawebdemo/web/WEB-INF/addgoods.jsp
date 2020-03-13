@@ -66,10 +66,14 @@
         <div id="sidebar" class="nav-collapse ">
             <!-- sidebar menu start-->
             <ul class="sidebar-menu" id="nav-accordion">
-                <p class="centered">
-                    <a href="profile.html"><img src="${pageContext.request.contextPath}/img/ui-sam.jpg" class="img-circle" width="80"></a>
-                </p>
+                <p class="centered"><a href="profile.html"><img src="${pageContext.request.contextPath}/img/ui-sam.jpg" class="img-circle" width="80"></a></p>
                 <h5 class="centered">${user.username}</h5>
+                <li class="sub-menu">
+                    <a href="${pageContext.request.contextPath}/backed/users/get_home">
+                        <i class="fa fa-desktop"></i>
+                        <span>首页</span>
+                    </a>
+                </li>
                 <li class="sub-menu">
                     <a class="active"  href="javascript:;">
                         <i class="fa fa-desktop"></i>
@@ -90,6 +94,25 @@
                         <c:if test="${user.type eq 1}">
                             <li><a href="${pageContext.request.contextPath}/backed/index/addmsg">添加管理员</a></li>
                         </c:if>
+                    </ul>
+                </li>
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-cogs"></i>
+                        <span>我的客户</span>
+                    </a>
+                    <ul class="sub">
+                        <li><a href="${pageContext.request.contextPath}/backed/customer/get_all_customer">所有客户</a></li>
+                    </ul>
+                </li>
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-cogs"></i>
+                        <span>订单管理</span>
+                    </a>
+                    <ul class="sub">
+                        <li><a href="${pageContext.request.contextPath}/backed/order/get_all_order">所有订单</a></li>
+                        <li><a href="${pageContext.request.contextPath}/backed/order_item/get_all_order_item">订单商品详情</a></li>
                     </ul>
                 </li>
             </ul>

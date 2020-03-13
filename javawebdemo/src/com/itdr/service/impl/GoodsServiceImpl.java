@@ -175,4 +175,21 @@ public class GoodsServiceImpl implements GoodsService {
         return ResponseCode.toSuccess(goodsList);
 
     }
+
+    @Override
+    public ResponseCode goodsNumberSort() {
+        List<Goods> goods = goodsDao.goodsSort2("goods_number", 5);
+        if(goods.isEmpty()){
+            ResponseCode.toDefeated("暂无参数");
+        }
+        List<GoodsVO> goodsList = new ArrayList<GoodsVO>();
+        for (Goods good : goods) {
+            Users u =  userDao.selectByUserId(good.getUid());
+            if(u!=null){
+                GoodsVO goodsVO = toObjectUtil.getGoodsVO(u.getUsername(), good);
+                goodsList.add(goodsVO);
+            }
+        }
+        return ResponseCode.toSuccess(goodsList);
+    }
 }

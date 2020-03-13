@@ -35,7 +35,7 @@ public class FullFilter implements Filter {
             //其它请求斗西游验证管理员权限以及是否登录，定位到一个页面
             HttpSession session = ((HttpServletRequest) request).getSession();
             Users us =(Users) session.getAttribute("user");
-            if(us == null || us.getType() != 1){
+            if(us == null ){
                 request.getRequestDispatcher("/WEB-INF/noaccess.jsp").forward(request,response);
             }else {
                 chain.doFilter(request, response);

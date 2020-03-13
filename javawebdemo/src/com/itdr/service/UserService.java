@@ -15,4 +15,7 @@ public interface UserService {
     ResponseCode addMsg(String username, String password, String email, String checked1, String checked2,Users users);
 
     ResponseCode deleteUser(String uid);
+
+    ResponseCode selectInformation();
+
 }

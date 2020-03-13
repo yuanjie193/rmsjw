@@ -35,7 +35,7 @@ public class ConfigServlet extends HttpServlet {
         }
     }
     private void home(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/home.jsp").forward(request,response);
+        request.getRequestDispatcher("/WEB-INF/home2.jsp").forward(request,response);
     }
     private void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("/WEB-INF/register.jsp").forward(request,response);
